@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Magia do Toque</title>
+</h:head>
+<h:body> 
+<h:form>            
+    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+    <p:graphicImage value="/demo/images/login.png" width="70" height="70"/>
+    </h:outputLink>
+ 
+    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+ 
+    <p:dialog header="Login" widgetVar="dlg" resizable="false">
+        <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="email" value="E-mail:" />
+            <p:inputText id="email" value="#{cliente.email}" required="true" label="email" />
+ 
+            <h:outputLabel for="senha" value="Senha" />
+            <p:password id="senha" value="#{cliente.senha}" required="true" label="senha" />
+ 
+            <f:facet name="footer">
+                <p:commandButton value="Entrar" update="growl" actionListener="#{clienteView.login}"
+                                 oncomplete="handleLoginRequest(xhr, status, args)" />
+            </f:facet>  
+        </h:panelGrid>
+    </p:dialog>
+</h:form>
+ 
+<script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed || !args.loggedIn) {
+            PF('dlg').jq.effect("shake", {times:5}, 100);
+        }
+        else {
+            PF('dlg').hide();
+            $('#loginLink').fadeOut();
+        }
+    }
+</script>
+</h:body>
+</html>
+

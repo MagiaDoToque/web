@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mobile">
+     
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+     
+    <h:head>
+        <link rel="StyleSheet" type="text/css" href="resources/css/image.css"
+		media="screen" />
+    </h:head>
+     
+    <h:body>
+         
+
+	<pm:page id="list" >
+		<pm:header title="CLIENTE" swatch="b" styleClass="cabecalho" > 
+			<p:commandButton styleClass="ui-btn-right ui-btn-inline" value="Cadastrar"  style = " background-color:#F5A9A9"
+				icon="ui-icon-plus" update=":edit:editForm:editFormPanel"
+				action="#{clienteView.cadastrarNovoContato}"
+				/>
+		</pm:header>
+
+		<pm:content>
+			<h:form id="listForm">
+				<p:dataList id="listacliente" value="#{clienteView.clientes}"
+					var="cliente" pt:data-inset="true">
+					<p:commandLink value="#{cliente.nome} #{cliente.email}"
+						update=":edit:editForm:editFormPanel"
+						action="pm:edit?transition=flip">
+						<f:setPropertyActionListener value="#{cliente}"
+							target="#{clienteView.cliente}" />
+					</p:commandLink>
+				</p:dataList>
+			</h:form>
+		</pm:content>
+	</pm:page>
+
+	<pm:page id="edit">
+		<pm:header title="Clientes" swatch="b">
+			<p:button styleClass="ui-btn-left ui-btn-inline" value="Voltar"
+				icon="ui-icon-arrow-l" outcome="pm:list?transition=flip" />
+		</pm:header>
+
+		<pm:content>
+			<h:form id="editForm">
+				<p:outputPanel id="editFormPanel">
+					<pm:field>
+						<p:outputLabel for="nome" value="Nome" />
+						<p:inputText id="nome"
+							value="#{clienteView.cliente.nome}" />
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="email" value="Email" />
+						<p:inputText id="email" value="#{clienteView.cliente.email}" 
+						type="email"/>
+					</pm:field>
+					<pm:field>
+						<p:outputLabel for="senha" value="Senha" />
+						<p:inputText id="senha" value="#{clienteView.cliente.senha}"/>
+					</pm:field>
+				</p:outputPanel>
+				<p:commandButton value="Salvar" action="#{clienteView.salvarCliente}"
+					update=":list:listForm:listacliente" icon="ui-icon-check" />
+			</h:form>
+
+		</pm:content>
+	</pm:page>
+         
+      
+    </h:body>
+</html>
